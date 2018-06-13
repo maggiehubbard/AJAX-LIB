@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Combined Search";
+}
+
+Search by Author:
+<input type="text" id="author" class="form-control"
+       oninput="search()" />
+
+Search By Title:
+<input type="text" id="title" class="form-control"
+       oninput="search()" />
+
+Search By Year:
+<input type="text" id="year" class="form-control"
+       oninput="search()" />
+
+
+<table class="table table-striped" id="books"></table>
+
+<script type="text/javascript"
+        src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function search() {
+        $.ajax(
+            {
+                //Search b y author functionality
+                type: 'POST',
+                url: '/Home/GetBooksByAuthor',
+                data: '{author: "' + document.getElementById("author").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Ranking</th>"
+                            + "<th>Book Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th></tr>";
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Ranking + "</td>"
+                                + "<td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+
+        //Search by title functionality
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetBooksByTitle',
+                data: '{title: "' + document.getElementById("title").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Ranking</th>"
+                            + "<th>Book Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th></tr>";
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Ranking + "</td>"
+                                + "<td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+
+        //Search by Year functionality
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetBooksByYear',
+                data: '{year: "' + document.getElementById("year").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Ranking</th>"
+                            + "<th>Book Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th></tr>";
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Ranking + "</td>"
+                                + "<td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+
+    }
+</script>
+
